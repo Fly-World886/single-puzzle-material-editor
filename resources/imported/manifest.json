@@ -1,0 +1,27 @@
+{
+  "pictures": [
+    {
+      "imagePath": "imported/background/7e7119dba86cebf99095008c020ed9225d4cde0155d8835bd6213a4de39dd30c.png",
+      "fingerprint": "7e7119dba86cebf99095008c020ed9225d4cde0155d8835bd6213a4de39dd30c",
+      "name": "openai_gpt-image-2_edit.png",
+      "imported": true,
+      "kind": "background"
+    },
+    {
+      "imagePath": "imported/background/ab8a2b35708d789f135bf27cef7e5868a5e3024d346e91eb256c18cab412ffe5.mov",
+      "fingerprint": "ab8a2b35708d789f135bf27cef7e5868a5e3024d346e91eb256c18cab412ffe5",
+      "name": "10月10日.mov",
+      "imported": true,
+      "mimeType": "video/quicktime",
+      "mediaType": "video",
+      "kind": "background"
+    },
+    {
+      "imagePath": "imported/puzzle/7e7119dba86cebf99095008c020ed9225d4cde0155d8835bd6213a4de39dd30c.png",
+      "fingerprint": "7e7119dba86cebf99095008c020ed9225d4cde0155d8835bd6213a4de39dd30c",
+      "name": "openai_gpt-image-2_edit.png",
+      "imported": true,
+      "kind": "puzzle"
+    }
+  ]
+}

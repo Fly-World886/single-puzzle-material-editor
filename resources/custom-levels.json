@@ -1,0 +1,82 @@
+{
+  "levels": [
+    {
+      "id": 11,
+      "enabled": true,
+      "variants": [
+        {
+          "tier": 1,
+          "difficulty": 0,
+          "layout": {
+            "boardSize": {
+              "width": 4,
+              "height": 4
+            },
+            "matchSize": {
+              "width": 4,
+              "height": 4
+            },
+            "tilePixelSize": {
+              "width": 180,
+              "height": 260
+            },
+            "pictures": [],
+            "queues": [
+              {
+                "tiles": []
+              },
+              {
+                "tiles": []
+              },
+              {
+                "tiles": []
+              },
+              {
+                "tiles": []
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "enabled": true,
+      "variants": [
+        {
+          "tier": 1,
+          "difficulty": 0,
+          "layout": {
+            "boardSize": {
+              "width": 4,
+              "height": 4
+            },
+            "matchSize": {
+              "width": 4,
+              "height": 4
+            },
+            "tilePixelSize": {
+              "width": 180,
+              "height": 260
+            },
+            "pictures": [],
+            "queues": [
+              {
+                "tiles": []
+              },
+              {
+                "tiles": []
+              },
+              {
+                "tiles": []
+              },
+              {
+                "tiles": []
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

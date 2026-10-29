@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>单拼图素材编辑器</title>
+    <link rel="stylesheet" href="./styles.css?v=background-sizing-controls">
+  </head>
+  <body>
+    <div id="drag-preview" class="drag-preview" aria-hidden="true" hidden></div>
+    <div id="editor-root" class="editor-app">
+      <aside class="sidebar" aria-label="关卡工具栏">
+        <div class="brand">🧩 <span>单拼图素材编辑器</span></div>
+        <div id="level-grid-label" class="field-label">全部关卡</div>
+        <nav id="level-grid" class="level-grid" aria-labelledby="level-grid-label"></nav>
+        <div class="toolbar-actions">
+          <button id="new-level-button" class="primary-action" type="button" disabled>＋ 新建关卡</button>
+          <button id="rename-level-button" class="secondary-action" type="button" disabled>重命名此关</button>
+          <button id="delete-level-button" class="danger-action" type="button" disabled>删除此关</button>
+          <div id="auto-save-status" class="auto-save-status" role="status" aria-live="polite">修改后自动保存</div>
+          <button id="export-level-button" class="success-action" type="button" disabled>导出此关</button>
+        </div>
+        <div class="shortcut-help">关卡修改后自动保存<br>鼠标右键拖动画布<br>H 隐藏编辑 UI</div>
+        <button id="sidebar-toggle" class="sidebar-toggle" type="button">‹ 收起工具栏</button>
+      </aside>
+
+      <main class="workspace">
+        <section class="scene-panel" aria-label="关卡场景编辑">
+          <header class="panel-header"><strong>关卡场景编辑</strong><span>2D 视图　网格　吸附</span></header>
+          <div id="scene-canvas" class="scene-canvas">
+            <div id="canvas-tip" class="canvas-tip">正在加载关卡素材…</div>
+            <div id="scene-composition" class="scene-composition">
+              <div id="phone-composition" class="phone-composition" aria-label="可编辑的关卡初始画面">
+                <img id="scene-background-image" class="game-background-image" alt="" hidden>
+                <video id="scene-background-video" class="game-background-video" muted loop playsinline hidden></video>
+                <div class="scene-hud"><b id="scene-level-label">LEVEL --</b><b>⚙</b></div>
+                <div id="puzzle-board" class="puzzle-board" aria-label="拼图棋盘"></div>
+              </div>
+            </div>
+            <div id="zoom-control" class="zoom-control">缩放 100%</div>
+          </div>
+        </section>
+
+        <section class="preview-panel" aria-label="本地关卡游玩">
+          <header class="panel-header preview-header">
+            <strong>操作端</strong>
+            <label><span class="sr-only">预览设备</span><select id="device-select" class="compact-control"><option>iPhone 14</option><option>iPad Pro</option><option>Android</option></select></label>
+            <button id="seamscape-preview-toggle" class="run-button" type="button" title="在 Seamscape 中游玩当前关卡">▶ 游玩</button>
+            <button id="seamscape-demo-open" class="secondary-action small-action" type="button" title="打开演示窗口并同步操作；两端会从当前布局重新开始" disabled>打开演示窗口</button>
+          </header>
+          <div id="preview-stage" class="preview-stage">
+            <iframe id="seamscape-preview-frame" class="webgl-preview-frame" title="Seamscape 操作端" allow="autoplay; fullscreen" hidden></iframe>
+            <div id="runtime-composition" class="scene-composition runtime-composition">
+              <div id="runtime-queue-columns" class="queue-columns runtime-queue-columns" aria-label="后续掉落队列"></div>
+              <div id="runtime-phone" class="runtime-phone">
+                <img id="runtime-background-image" class="game-background-image" alt="" hidden>
+                <video id="runtime-background-video" class="game-background-video" muted loop playsinline hidden></video>
+                <div id="runtime-hud" class="runtime-hud"><b id="runtime-level-label">LEVEL --</b><b>⚙</b></div>
+                <div id="runtime-board" class="runtime-board" aria-label="当前关开局静态预览"></div>
+                <div class="runtime-caption">编辑器内开局预览</div>
+              </div>
+            </div>
+          </div>
+          <footer class="preview-footer">
+            <button id="hud-toggle" class="secondary-action small-action" type="button">HUD 显示</button>
+            <div class="preview-statuses">
+              <span role="status">操作端：<span id="seamscape-preview-status">本地关卡游玩</span></span>
+              <span role="status">演示端：<span id="seamscape-demo-status">未打开</span></span>
+            </div>
+          </footer>
+        </section>
+
+        <aside class="inspector" aria-label="素材与关卡属性">
+          <section class="inspector-top" aria-label="素材工作区导航">
+            <h2>素材放置</h2>
+            <div class="asset-grid">
+              <button type="button" data-inspector-workspace="board"><span>棋盘</span></button>
+              <button type="button" data-inspector-workspace="project"><span>项目总图片</span></button>
+              <button type="button" data-inspector-workspace="current"><span>本关图片</span></button>
+              <button type="button" data-inspector-workspace="import"><span>导入图片</span></button>
+            </div>
+            <div class="asset-actions">
+              <button id="add-picture-to-level-button" class="primary-action" type="button" disabled>＋ 添加到本关</button>
+            </div>
+          </section>
+          <div class="inspector-workspaces">
+            <section class="inspector-workspace board-workspace" data-workspace="board" hidden>
+              <header class="workspace-header"><h2 id="inspector-title">棋盘信息</h2></header>
+              <div class="inspector-content">
+                <p id="inspector-resource">资源：--</p><p id="inspector-grid">拼图规格：--</p><p id="inspector-placement">初始位置：--</p>
+                <div class="board-format-control">
+                  <label for="board-format-select">棋盘格式</label>
+                  <div class="board-format-row">
+                    <select id="board-format-select" class="compact-control" aria-describedby="board-format-help">
+                      <option value="3">3 × 3</option>
+                      <option value="4">4 × 4</option>
+                      <option value="5">5 × 5</option>
+                      <option value="6">6 × 6</option>
+                      <option value="7">7 × 7</option>
+                    </select>
+                    <button id="apply-board-format-button" class="primary-action small-action" type="button" disabled>应用格式</button>
+                  </div>
+                  <p id="board-format-help">切换格式会重新配置棋盘。</p>
+                </div>
+                <button class="secondary-action" type="button">在场景中定位</button>
+              </div>
+              <div class="background-workspace-content">
+                <p>选择图片或视频背景后，场景编辑与运行预览会同步更新。</p>
+                <button id="import-backgrounds-button" class="primary-action" type="button">导入图片或视频背景</button>
+                <button id="adjust-background-button" class="secondary-action" type="button" disabled>调整背景尺寸</button>
+                <div id="background-settings-panel" class="background-settings" hidden>
+                  <label for="background-fit-select">适配<select id="background-fit-select" class="compact-control"><option value="cover">填充裁切</option><option value="contain">完整显示</option><option value="stretch">拉伸填满</option></select></label>
+                  <label for="background-scale-input">整体缩放<input id="background-scale-input" type="range" min="50" max="200" step="1"><output id="background-scale-value">100%</output></label>
+                  <label for="background-width-input">宽度<input id="background-width-input" type="number" min="50" max="200" step="1" inputmode="numeric"><span>%</span></label>
+                  <label for="background-height-input">高度<input id="background-height-input" type="number" min="50" max="200" step="1" inputmode="numeric"><span>%</span></label>
+                </div>
+              </div>
+              <div id="game-background-library" class="picture-library"></div>
+              <input id="background-import-input" type="file" accept="image/*,video/mp4,video/webm,video/ogg,video/quicktime" multiple hidden>
+              <div id="validation-summary" class="validation-summary">正在检查关卡完整性…</div>
+            </section>
+            <section class="inspector-workspace project-workspace" data-workspace="project">
+              <header class="workspace-header"><h2 id="picture-library-title">项目拼图图片</h2></header>
+              <div class="project-picture-filters">
+                <select id="project-picture-source" class="compact-control" aria-label="图片来源">
+                  <option value="all">全部来源</option>
+                  <option value="official">关卡图片</option>
+                  <option value="pending-square">新增图片</option>
+                  <option value="square-2">新增2</option>
+                </select>
+                <input id="project-picture-search" class="compact-control" type="search" placeholder="搜索图片编号" aria-label="搜索图片编号">
+              </div>
+              <div id="picture-library" class="picture-library"></div>
+              <div class="project-picture-pagination">
+                <button id="project-picture-previous" class="secondary-action small-action" type="button" aria-label="上一页" title="上一页">‹</button>
+                <span id="project-picture-page">1 / 1</span>
+                <button id="project-picture-next" class="secondary-action small-action" type="button" aria-label="下一页" title="下一页">›</button>
+              </div>
+            </section>
+            <section class="inspector-workspace current-workspace" data-workspace="current" hidden>
+              <header class="workspace-header"><h2>本关图片</h2><span>点击切换预览图片；拖动可互换</span><button id="delete-current-picture-button" class="secondary-action small-action" type="button" disabled>删除选中</button></header>
+              <div id="current-picture-library" class="picture-library"></div>
+            </section>
+            <section class="inspector-workspace import-workspace" data-workspace="import" hidden>
+              <header class="workspace-header"><h2 id="import-picture-library-title">导入图片</h2></header>
+              <div class="import-workspace-content">
+                <p>导入的图片保存在这里；会自动过滤与项目及已导入素材重复的图片。</p>
+                <button id="import-pictures-button" class="primary-action" type="button">选择图片导入</button>
+              </div>
+              <div id="imported-picture-library" class="picture-library"></div>
+              <input id="picture-import-input" type="file" accept="image/*" multiple hidden>
+            </section>
+          </div>
+        </aside>
+      </main>
+    </div>
+    <script type="module" src="./app.mjs"></script>
+  </body>
+</html>

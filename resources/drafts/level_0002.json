@@ -1,0 +1,77 @@
+{
+  "version": 1,
+  "levelId": 2,
+  "layout": {
+    "boardSize": {
+      "width": 3,
+      "height": 3
+    },
+    "matchSize": {
+      "width": 3,
+      "height": 3
+    },
+    "tilePixelSize": {
+      "width": 168,
+      "height": 256
+    },
+    "pictures": [
+      {
+        "imagePath": "images/seamscape/Square_0002.jpg"
+      },
+      {
+        "imagePath": "images/seamscape/Square_0008.jpg"
+      }
+    ],
+    "queues": [
+      {
+        "tiles": [
+          {
+            "pictureIndex": 0,
+            "tileIndex": 0
+          },
+          {
+            "pictureIndex": 0,
+            "tileIndex": 3
+          },
+          {
+            "pictureIndex": 0,
+            "tileIndex": 6
+          }
+        ]
+      },
+      {
+        "tiles": [
+          {
+            "pictureIndex": 0,
+            "tileIndex": 1
+          },
+          {
+            "pictureIndex": 0,
+            "tileIndex": 4
+          },
+          {
+            "pictureIndex": 0,
+            "tileIndex": 7
+          }
+        ]
+      },
+      {
+        "tiles": [
+          {
+            "pictureIndex": 0,
+            "tileIndex": 2
+          },
+          {
+            "pictureIndex": 0,
+            "tileIndex": 5
+          },
+          {
+            "pictureIndex": 0,
+            "tileIndex": 8
+          }
+        ]
+      }
+    ]
+  },
+  "selectedGameBackground": null
+}

@@ -1,0 +1,17 @@
+# macOS
+.DS_Store
+._*
+
+# Local tooling and temporary files
+.superpowers/
+node_modules/
+__pycache__/
+*.py[cod]
+*.log
+*.tmp
+*.swp
+
+# Local secrets
+.env
+.env.*
+!.env.example
